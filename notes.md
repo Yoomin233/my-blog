@@ -4,3 +4,4 @@ js files inside [pages](./pages) will be mapped to the routes(export react compo
 sub folders will be mapped to the subroutes
 
 ### navigate
+use `<Link></Link>` wrapper component do the client-side navigation. it works with any uderlying elements(`a, p, button...`)
