@@ -40,7 +40,6 @@ export default () => (
         z-index: 3;
         background-color: lightpink;
         transform-origin: center top;
-        {/* transform: translateZ(100px) rotateX(70deg); */}
       }
       .rounds {
         width: 80%;
@@ -51,7 +50,6 @@ export default () => (
         background-color: #fff;
         transform-origin: center;
         border-radius: 50%;
-        {/* animation: spin 5s linear infinite; */}
       }
       .rounds::before {
         content: '';
