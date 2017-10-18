@@ -32,3 +32,8 @@ server.get('/posts/:y/:m/:d/:n', (req, res) => {
 })
 ```
 using custom express API to render the page
+
+### get initial props
+`getInitialProps` called on the client side when navigating to this page; it gets called on the server side when direct visit; page refresh. 
+
+### styled-jsx

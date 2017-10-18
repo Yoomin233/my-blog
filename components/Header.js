@@ -1,17 +1,27 @@
 import Link from 'next/link'
 
-const linkStyle = {
-  marginRight: 15
-}
-
 const Header = () => (
   <div>
     <Link href="/">
-      <a style={linkStyle}>Home</a>
+      <a>Home</a>
     </Link>
     <Link href="/about">
-      <a style={linkStyle}>About</a>
+      <a>About</a>
     </Link>
+    <style jsx>{`
+      a {
+        color: #666;
+        text-decoration: none;
+        font-size: 1.2em;
+        display: inline-block;
+        margin-right: 1em;
+        postion: relative;
+        &::before {
+          content: '';
+        }
+      }
+
+    `}</style>
   </div>
 )
 
