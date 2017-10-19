@@ -1,15 +1,18 @@
 import Document, { Head, Main, NextScript } from 'next/document'
 
+import stylesheet from '../styles/style.css'
 export default class MyDocument extends Document {
   static getInitialProps(ctx) {
-    return Document.getInitialProps(ctx)
+    const props = Document.getInitialProps(ctx)
+    return props;
   }
 
   render() {
+    const {nextStyle} = this.props
     return (
       <html>
         <Head>
-          <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/atom-one-light.min.css" rel="stylesheet" />
+          <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
         </Head>
         <body>
           <Main />

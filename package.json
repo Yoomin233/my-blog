@@ -11,15 +11,32 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "autoprefixer": "^7.1.5",
+    "babel-plugin-module-resolver": "^2.7.1",
+    "babel-plugin-wrap-in-js": "^1.1.1",
     "express": "^4.16.2",
+    "glob": "^7.1.2",
     "isomorphic-unfetch": "^2.0.0",
     "marked": "^0.3.6",
     "next": "^4.1.0",
     "node-sass": "^4.5.3",
+    "normalize.css": "^7.0.0",
+    "postcss-easy-import": "^3.0.0",
+    "postcss-loader": "^2.0.8",
+    "raw-loader": "^0.5.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-highlight": "^0.10.0",
     "react-markdown": "^2.5.0",
+    "sass-loader": "^6.0.6",
     "styled-jsx-plugin-sass": "^0.1.0"
+  },
+  "devDependencies": {
+    "babel-plugin-css-modules-transform": "^1.2.7",
+    "babel-plugin-inline-import": "^2.0.6",
+    "next-style-loader": "^0.3.1",
+    "node-sass": "^4.5.3",
+    "postcss": "^6.0.13",
+    "postcss-cssnext": "^3.0.2"
   }
 }

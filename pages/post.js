@@ -36,9 +36,9 @@ class Posts extends Component {
     }
   }
   render() {
-    const { article } = this.props
+    const { article, url} = this.props
     return (
-      <Layout>
+      <Layout url={url}>
         <h1>{article.id}</h1>
         <div>
           <p>{article.publishTime}</p>

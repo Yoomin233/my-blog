@@ -17,34 +17,25 @@ const PostLink = (props) => {
 
 class Index extends Component {
   static async getInitialProps(props) {
-    const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-    const data = await res.json()
+    // const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
+    // const data = await res.json()
 
-    console.log(`Show data fetched. Count: ${data.length}`)
+    // console.log(`Show data fetched. Count: ${data.length}`)
 
-    return {
-      shows: data
-    }
+    // return {
+    //   shows: data
+    // }
+    return {}
   }
   render() {
-    const { shows } = this.props
+    const { shows, url } = this.props
     return (
-      <Layout>
+      <Layout url={url}>
         <h1>My Blog</h1>
         <ul>
           <PostLink title="Hello Next.js" id={'2017101801'} />
           <PostLink title="Hello Next.js" id={'2017101802'} />
           <PostLink title="Hello Next.js" id={'2017101803'} />
-        </ul>
-        <h1>batman tv shows</h1>
-        <ul>
-          {
-            shows.map(item => (
-              <li key={item.show.id}>
-                {item.show.name}
-              </li>
-            ))
-          }
         </ul>
       </Layout>
     )
