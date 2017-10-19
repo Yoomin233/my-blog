@@ -21,8 +21,17 @@ app.prepare()
       res.send({
         status: 'success',
         id: req.params.id,
-        content: '<p>empty article</p>',
-        publishTime: Date.now()
+        content: `
+        This is our blog post.
+        Yes. We can have a [link](/link).
+        And we can have a title as well.
+
+        ### This is a title
+
+        And here's the content.
+        `,
+        publishTime: Date.now(),
+        type: 'markdown'
       })
     })
 

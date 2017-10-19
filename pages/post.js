@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import Layout from '../components/Layout'
+import Markdown from 'react-markdown'
 
 import fetch from 'isomorphic-unfetch'
 
@@ -11,7 +12,7 @@ const Content = (props) => (
       <p>{props.articleInfo.publishTime}</p>
     </div>
     <div className="content">
-      <div dangerouslySetInnerHTML={{__html: props.articleInfo.content}}></div>
+      <Markdown source={props.articleInfo.content} />
     </div>
   </div>
 )
