@@ -1,9 +1,17 @@
 import React, { Component } from 'react'
 
-import Layout from '../components/Layout'
-import Markdown from 'react-markdown'
-
 import fetch from 'isomorphic-unfetch'
+
+import Layout from '../components/Layout'
+
+import marked from 'marked'
+import Hightlight from 'react-highlight'
+
+marked.setOptions({
+  gfm: true,
+  tables: true,
+  breaks: true
+})
 
 const Content = (props) => (
   <div>
@@ -12,25 +20,31 @@ const Content = (props) => (
       <p>{props.articleInfo.publishTime}</p>
     </div>
     <div className="content">
-      <Markdown source={props.articleInfo.content} />
+      {props.content}
     </div>
   </div>
 )
 
 class Posts extends Component {
-  static async getInitialProps ({query}) {
-    const {id} = query
+  static async getInitialProps({ query }) {
+    const { id } = query
     const res = await fetch(`http://localhost:3000/api/post/${id}`)
-    const content = await res.json()
-    console.log(content)
+    const article = await res.json()
     return {
-      articleInfo: content
+      // WithPost: <p>123</p>
+      article
     }
   }
   render() {
+    const { article } = this.props
     return (
       <Layout>
-        <Content {...this.props} />
+        <h1>{article.id}</h1>
+        <div>
+          <p>{article.publishTime}</p>
+          <div dangerouslySetInnerHTML={{__html: marked(article.content)}}>
+          </div>
+        </div>
       </Layout>
     )
   }

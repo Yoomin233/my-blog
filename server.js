@@ -21,15 +21,19 @@ app.prepare()
       res.send({
         status: 'success',
         id: req.params.id,
-        content: `
-        This is our blog post.
-        Yes. We can have a [link](/link).
-        And we can have a title as well.
+        content: `This is our blog post.
+Yes. We can have a [link](/link).
+And we can have a title as well.
 
-        ### This is a title
+\`\`\`javascript
+const ab = 3
+var {
+  123456
+}
+\`\`\`
 
-        And here's the content.
-        `,
+### This is a title
+And here's the content.`,
         publishTime: Date.now(),
         type: 'markdown'
       })
