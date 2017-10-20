@@ -22,3 +22,17 @@ export const debounce = (fn, delay) => {
     }
   }
 }
+
+export const formatTime = (time, format) => {
+  const [, weekDay, month, date, year, hour, minutes, second, timeZone] = new Date(time).toString().match(/(\w{3})\s(\w{3})\s(\d{2})\s(\d{4})\s(\d{2}):(\d{2}):(\d{2})\s(.*)/)
+  return {
+    weekDay,
+    month,
+    date,
+    year,
+    hour,
+    minutes,
+    second,
+    timeZone
+  }
+}

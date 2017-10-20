@@ -1,6 +1,10 @@
 body {
   margin: 0
 }
+ul {
+  list-style-type: none;
+  margin: 0;
+}
 div.header {
   height: 40vh;
   overflow: hidden;
@@ -9,4 +13,7 @@ div.header {
     background-position: center;
     background-size: cover;
   }
+}
+* {
+  box-sizing: border-box;
 }

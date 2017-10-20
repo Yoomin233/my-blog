@@ -1,21 +1,10 @@
-import Layout from '../components/Layout'
-import Link from 'next/link'
 import fetch from 'isomorphic-fetch'
 
 import React, { Component } from 'react'
+import Layout from '../components/Layout'
+import PostLink from '../components/PostLink'
 
 import headerImg from './i-should-buy-a-boat.jpg'
-
-const PostLink = (props) => {
-  const [, y, m, d, n] = props.id.match(/^(\d{4})(\d{2})(\d{2})(\d{2})/)
-  return (
-    <li>
-      <Link as={`/posts/${y}/${m}/${d}/${n}`} href={`/post?id=${props.id}`} >
-        <a>{props.title}</a>
-      </Link>
-    </li>
-  )
-}
 
 class Index extends Component {
   static async getInitialProps(props) {
@@ -25,7 +14,6 @@ class Index extends Component {
     return {
       articleList: data
     }
-    return {}
   }
   render() {
     const { articleList, url } = this.props
@@ -38,14 +26,38 @@ class Index extends Component {
           </div>
         </div>
         <div className="mainContentWrapper">
-          <ul>
-            <PostLink title="Hello Next.js" id={'2017101801'} abstract={'this is '}/>
-            <PostLink title="Hello Next.js" id={'2017101802'} />
-            <PostLink title="Hello Next.js" id={'2017101803'} />
+          <ul className='postList'>
+            {
+              articleList.list.map((item, index) => (
+                <PostLink title={item.title} id={item.publishTime} abstract={item.abstract} titleImg={item.titleImg} publishTime={item.publishTime} key={index}/>
+              ))
+            }
           </ul>
+          <div className="sideContent">
+
+          </div>
         </div>
         <style jsx>{`
-          
+          .mainContentWrapper > * {
+            display: inline-block;
+            padding: 10px;
+          }
+          .postList {
+            width: 60%;
+          }
+          .sideContent {
+            height: 120px;
+            width: 40%;
+            vertical-align: top;
+          }
+          @media screen and (max-width: 640px) {
+            .mainContentWrapper > * {
+              display: block;
+            }
+            .postList, .sideContent {
+              width: 100%;
+            }
+          }
         `}</style>
       </Layout>
     )
