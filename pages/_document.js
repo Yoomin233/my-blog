@@ -1,6 +1,6 @@
 import Document, { Head, Main, NextScript } from 'next/document'
 
-import stylesheet from '../styles/style.css'
+import stylesheet from '../styles/style.scss'
 export default class MyDocument extends Document {
   static getInitialProps(ctx) {
     const props = Document.getInitialProps(ctx)

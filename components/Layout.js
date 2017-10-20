@@ -1,12 +1,8 @@
-import Header from './Header'
-
-const layoutStyle = {
-  padding: 20,
-}
+import HeaderMenu from './Header'
 
 const Layout = (props) => (
-  <div style={layoutStyle}>
-    <Header url={props.url}/>
+  <div>
+    <HeaderMenu url={props.url}/>
     {props.children}
   </div>
 )

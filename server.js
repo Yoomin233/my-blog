@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 const express = require('express')
 const next = require('next')
 
@@ -14,6 +16,12 @@ app.prepare()
       const actualPage = '/post'
       const queryParams = {id: `${req.params.y}${req.params.m}${req.params.d}${req.params.n}`}
       app.render(req, res, actualPage, queryParams)
+    })
+
+    // article list
+    server.get('/api/post/list', (req, res) => {
+      const articleList = JSON.parse(fs.readFileSync('./articles/articleList.json', 'utf-8'))
+      res.json(articleList)
     })
 
     // article id enquiry

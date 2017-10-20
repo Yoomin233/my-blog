@@ -6,6 +6,17 @@ module.exports = {
   webpack: (config, { dev }) => {
     config.module.rules.push(
       {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192
+            }
+          }
+        ]
+      },
+      {
         test: /\.(css|scss)/,
         loader: 'emit-file-loader',
         options: {
@@ -19,7 +30,7 @@ module.exports = {
       }
       ,
       {
-        test: /\.s(a|c)ss$/,
+        test: /\.scss$/,
         use: ['babel-loader', 'raw-loader', 'postcss-loader',
           {
             loader: 'sass-loader',

@@ -1,0 +1,12 @@
+body {
+  margin: 0
+}
+div.header {
+  height: 40vh;
+  overflow: hidden;
+  > div.headerImg {
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+  }
+}

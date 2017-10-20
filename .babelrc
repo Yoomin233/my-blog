@@ -13,6 +13,16 @@
   ],
   "plugins": [
     [
+      "import-static-files",
+      {
+        "baseDir": "/static",
+        "extensions": [
+          ".jpg",
+          ".png"
+        ]
+      }
+    ],
+    [
       "module-resolver",
       {
         "root": [
