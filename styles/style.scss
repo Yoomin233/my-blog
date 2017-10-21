@@ -1,19 +1,38 @@
+@import './Glyphter.css';
 body {
   margin: 0
 }
 ul {
   list-style-type: none;
   margin: 0;
-}
-div.header {
-  height: 40vh;
-  overflow: hidden;
-  > div.headerImg {
-    height: 100%;
-    background-position: center;
-    background-size: cover;
-  }
+  padding: 0;
 }
 * {
   box-sizing: border-box;
+}
+
+.mainContentWrapper > * {
+  display: inline-block;
+  padding: 10px;
+}
+.mainContent {
+  width: 60%;
+}
+.sideContent {
+  height: 120px;
+  width: 40%;
+  vertical-align: top;
+}
+@media screen and (max-width: 640px) {
+  .mainContentWrapper > * {
+    display: block;
+  }
+  .mainContent, .sideContent {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .mainContentWrapper {
+    padding: 0 10vw
+  }
 }

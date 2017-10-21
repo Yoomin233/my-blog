@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import Link from 'next/link'
 
-import { throttle, debounce } from '../tools'
+import { debounce } from '../tools'
 
 class Header extends Component {
   constructor(props) {
@@ -67,16 +67,15 @@ class Header extends Component {
         > a:first-child {
           font-size: 1.6em;
           flex-grow: 1;
-          &::before, &::after {
-            display: none;
-          }
         }
         a {
           color: inherit;
+          text-shadow: 0 0 1px rgba(0,0,0,0.1);
         }
         &.minified {
           font-size: 1.2em;
           background-color: rgba(255, 255, 255, 0.8);
+          box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
           a {
             color: #444;
             &::before, &::after {
@@ -90,7 +89,7 @@ class Header extends Component {
         margin-right: 1em;
         position: relative;
         padding: .3em 0;
-        &::before, &.selected::after {
+        &:not(:first-child)::before, &.selected::after {
           content: '';
           position: absolute;
           left: 0;
@@ -117,7 +116,7 @@ class Header extends Component {
 }
 
 Header.defaultProps = {
-  headerColor: '#fff'
+  headerColor: '#fff',
 }
 
 export default Header

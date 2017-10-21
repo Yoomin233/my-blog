@@ -26,36 +26,27 @@ class Index extends Component {
           </div>
         </div>
         <div className="mainContentWrapper">
-          <ul className='postList'>
-            {
-              articleList.list.map((item, index) => (
-                <PostLink title={item.title} id={item.publishTime} abstract={item.abstract} titleImg={item.titleImg} publishTime={item.publishTime} key={index}/>
-              ))
-            }
-          </ul>
+          <div className="mainContent">
+            <ul className='postList'>
+              {
+                articleList.list.map((item, index) => (
+                  <PostLink title={item.title} id={item.publishTime} abstract={item.abstract} titleImg={item.titleImg} publishTime={item.publishTime} key={index}/>
+                ))
+              }
+            </ul>
+          </div>
           <div className="sideContent">
 
           </div>
         </div>
         <style jsx>{`
-          .mainContentWrapper > * {
-            display: inline-block;
-            padding: 10px;
-          }
-          .postList {
-            width: 60%;
-          }
-          .sideContent {
-            height: 120px;
-            width: 40%;
-            vertical-align: top;
-          }
-          @media screen and (max-width: 640px) {
-            .mainContentWrapper > * {
-              display: block;
-            }
-            .postList, .sideContent {
-              width: 100%;
+          div.header {
+            height: 40vh;
+            overflow: hidden;
+            > div.headerImg {
+              height: 100%;
+              background-position: center;
+              background-size: cover;
             }
           }
         `}</style>
