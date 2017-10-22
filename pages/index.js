@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import Layout from '../components/Layout'
 import PostLink from '../components/PostLink'
 
-import headerImg from './i-should-buy-a-boat.jpg'
+// import headerImg from './i-should-buy-a-boat.jpg'
 
 class Index extends Component {
   static async getInitialProps(props) {
@@ -21,7 +21,7 @@ class Index extends Component {
       <Layout url={url}>
         <div className="header">
           <div className="headerImg" style={{
-            backgroundImage: `url(${headerImg})`,
+            backgroundImage: `url(https://ws3.sinaimg.cn/mw1024/006tKfTcgy1fka1wtftctj30qo0a7gov.jpg)`,
           }}>
           </div>
         </div>
