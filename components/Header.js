@@ -38,7 +38,7 @@ class Header extends Component {
     return (
       <div className={className} style={{
         color: headerColor,
-        boxShadow: headerColor !== '#fff' ? '0px 0px 15px rgba(0,0,0,0.3);' : ''
+        boxShadow: headerColor !== '#fff' ? '0px 0px 15px rgba(0,0,0,0.3)' : ''
       }}>
         <Link href="/">
           <a>My Blog</a>
