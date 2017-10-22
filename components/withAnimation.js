@@ -5,7 +5,7 @@ class WithAnimation extends Component {
     const {children} = this.props
     return children.map(item => React.createElement(
       item.type,
-      Object.assign({}, item.props, {className:item.props.className + ' 333'}),
+      Object.assign({}, item.props, {style: Object.assign({}, item.props.style, this.props.beforeEnter)}),
     ))
   }
 }
