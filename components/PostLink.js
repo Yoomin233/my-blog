@@ -3,12 +3,15 @@ import Link from 'next/link'
 import {formatTime} from '../tools'
 
 const PostLink = (props) => {
-  const [, y, m, d, n] = String(props.id).match(/^(\d{4})(\d{2})(\d{2})(\d{2})/)
-  const {month, date} = formatTime(props.publishTime)
+  // debugger
+  const [, y, m, d, n] = String(props.fileName).match(/^(\d{4})(\d{2})(\d{2})\-(.*)$/)
+  // const [, y, m, d, n] = [1, 2, 3, 4, 5, 6]
+  // const {month, date} = [1, 2]
+  const {month, date} = formatTime(props.mtime)
   return (
     <li>
       <div className='title'>
-        <Link as={`/posts/${y}/${m}/${d}/${n}`} href={`/post?id=${props.id}`} >
+        <Link as={`/posts/${y}/${m}/${d}/${n}`} href={`/post?id=${props.fileName}`} >
           <div>
             {props.title}
           </div>

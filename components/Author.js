@@ -2,8 +2,8 @@ import Avatar from './ninja-cat1.jpg'
 
 export default (props) => (
   <div className='author'>
-    <h1>关于本博客背后其人</h1>
-    <img src={Avatar} alt="" className='avatar' />
+    <h1>关于本博客背后其<span title='你知道的太多了'>人</span></h1>
+    <img src={Avatar} alt="" className='avatar' title='你知道的太多了'/>
     <p>
       胡悦<ruby><rb>旻</rb><rp>（</rp><rt>mín</rt><rp>）</rp></ruby>, 或称Yoomin, 半路出家的野生前端工程师, 性别男, 爱好女(以及coding), 其实本体是吸猫狂魔, 一见到猫猫就会浑身瘫软彻底丧失行动能力, 用处是紧急时刻可以变成食物(大雾). 
     </p>
@@ -27,14 +27,31 @@ export default (props) => (
       <a className='icon-facebook' href='https://www.facebook.com/profile.php?id=100006231496977' target='_blank'></a>
     </p>
     <style jsx>{`
-      img.avatar {
-        width: 50%;
-        float: left;
-        margin-right: 1em;
-        border-radius: 5px;
-      }
       .author {
         border-bottom: 1px solid #ddd;
+        img.avatar {
+          width: 50%;
+          float: left;
+          margin-right: 1em;
+          border-radius: 5px;
+        }
+        > h1 {
+          >span {
+            display: inline-block;
+            position: relative;
+            &::before {
+              content: '喵';
+              position: absolute;
+              display: block;
+              background-color: #fff;
+              opacity: 0;
+              transition: all .3s ease;
+            }
+            &:hover::before {
+              opacity: 1;
+            }
+          }
+        }
       }
       .contacts {
         a {

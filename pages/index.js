@@ -14,7 +14,6 @@ class Index extends Component {
   static async getInitialProps(props) {
     const res = await fetch(`${config.baseURL}/api/post/list`)
     const data = await res.json()
-
     return {
       articleList: data
     }
@@ -34,7 +33,7 @@ class Index extends Component {
             <ul className='postList'>
               {
                 articleList.list.map((item, index) => (
-                  <PostLink title={item.title} id={item.publishTime} abstract={item.abstract} titleImg={item.titleImg} publishTime={item.publishTime} key={index}/>
+                  <PostLink title={item.title} fileName={item.fileName} abstract={item.abstract} titleImg={item.titleImg} mtime={item.mtime} key={index}/>
                 ))
               }
             </ul>
