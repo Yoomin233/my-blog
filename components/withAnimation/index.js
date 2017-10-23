@@ -1,5 +1,5 @@
 import Entrance from './Entrance'
 
-export default {
+export {
   Entrance
 }

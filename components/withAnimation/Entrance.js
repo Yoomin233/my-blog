@@ -10,21 +10,26 @@ class Entrance extends Component {
   }
   componentDidMount() {
     const { children, stagger } = this.props
-    children.forEach((item, index) => {
-      setTimeout(() => this.setState(({ animateList }) => {
-        console.log(animateList)
-        animateList[index] = true
-        return { animateList }
-      }), stagger * (1 + index))
-    })
+    if (stagger) {
+      children.forEach((item, index) => {
+        setTimeout(() => this.setState(({ animateList }) => {
+          animateList[index] = true
+          return { animateList }
+        }), stagger * (1 + index))
+      })
+    } else {
+      this.setState({
+        animateList: Array(children.length).fill(false)
+      })
+    }
   }
   render() {
     const { children } = this.props
     const { transition, animateList } = this.state
     return children.map((item, index) => React.createElement(
-      item.type,
+      'p',
       Object.assign({}, item.props, {
-        style: Object.assign({}, item.props.style, animateList[index] ? null : this.props.beforeEnter, { transition }),
+        style: Object.assign(item.props.style ? item.props.style : {}, animateList[index] ? null : this.props.beforeEnter, { transition }),
         key: index
       }),
     ))

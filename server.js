@@ -1,6 +1,9 @@
 const fs = require('fs')
 
+// express middlewares
 const express = require('express')
+const cors = require('cors')
+
 const next = require('next')
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -10,7 +13,7 @@ const handle = app.getRequestHandler()
 app.prepare()
   .then(() => {
     const server = express()
-
+    server.use(cors())
     // express-first
     server.get('/posts/:y/:m/:d/:n', (req, res) => {
       const actualPage = '/post'

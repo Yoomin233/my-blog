@@ -6,9 +6,26 @@ ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  > li {
+    margin: 0.3em 0;
+  }
 }
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 300;
+}
+
+p {
+  line-height: 1.8;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(20, 144, 215);
+  &:hover {
+    color: darken(rgb(20, 144, 215), 10%);
+  }
 }
 
 .mainContentWrapper > * {
@@ -19,11 +36,10 @@ ul {
   width: 60%;
 }
 .sideContent {
-  height: 120px;
   width: 40%;
   vertical-align: top;
 }
-@media screen and (max-width: 640px) {
+@media only all and (max-width: 640px) {
   .mainContentWrapper > * {
     display: block;
   }
@@ -31,7 +47,7 @@ ul {
     width: 100%;
   }
 }
-@media screen and (min-width: 1200px) {
+@media only all and (min-width: 1200px) {
   .mainContentWrapper {
     padding: 0 10vw
   }

@@ -5,7 +5,6 @@ import {formatTime} from '../tools'
 const PostLink = (props) => {
   const [, y, m, d, n] = String(props.id).match(/^(\d{4})(\d{2})(\d{2})(\d{2})/)
   const {month, date} = formatTime(props.publishTime)
-  console.log(month, date)
   return (
     <li>
       <div className='title'>

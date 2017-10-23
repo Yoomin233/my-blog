@@ -46,9 +46,6 @@ class Header extends Component {
         <Link href="/">
           <a className={currentPath === '/' ? 'selected' : ''}>Home</a>
         </Link>
-        <Link href="/posts">
-          <a className={currentPath === '/post' ? 'selected' : ''}>Posts</a>
-        </Link>
         <Link href="/about">
           <a className={currentPath === '/about' ? 'selected' : ''}>About</a>
         </Link>

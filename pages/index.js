@@ -1,14 +1,18 @@
+import React, { Component } from 'react'
+
 import fetch from 'isomorphic-fetch'
 
-import React, { Component } from 'react'
+import config from '../config'
+
 import Layout from '../components/Layout'
 import PostLink from '../components/PostLink'
+import Author from '../components/Author'
 
-// import headerImg from './i-should-buy-a-boat.jpg'
+import headerImg from './i-should-buy-a-boat.jpg'
 
 class Index extends Component {
   static async getInitialProps(props) {
-    const res = await fetch('http://localhost:3000/api/post/list')
+    const res = await fetch(`${config.baseURL}/api/post/list`)
     const data = await res.json()
 
     return {
@@ -18,10 +22,10 @@ class Index extends Component {
   render() {
     const { articleList, url } = this.props
     return (
-      <Layout url={url}>
+      <Layout url={url} title={'首页 | Yoomin\'s Blog'}>
         <div className="header">
           <div className="headerImg" style={{
-            backgroundImage: `url(https://ws3.sinaimg.cn/mw1024/006tKfTcgy1fka1wtftctj30qo0a7gov.jpg)`,
+            backgroundImage: `url(${headerImg})`,
           }}>
           </div>
         </div>
@@ -36,7 +40,7 @@ class Index extends Component {
             </ul>
           </div>
           <div className="sideContent">
-
+            <Author />
           </div>
         </div>
         <style jsx>{`
