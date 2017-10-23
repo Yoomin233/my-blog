@@ -1,9 +1,9 @@
-import Avatar from './ninja-cat1.jpg'
+// import Avatar from './ninja-cat1.jpg'
 
 export default (props) => (
   <div className='author'>
     <h1>关于本博客背后其<span title='你知道的太多了'>人</span></h1>
-    <img src={Avatar} alt="" className='avatar' title='你知道的太多了'/>
+    <img src={`/static/components/ninja-cat1.jpg`} alt="" className='avatar' title='你知道的太多了'/>
     <p>
       胡悦<ruby><rb>旻</rb><rp>（</rp><rt>mín</rt><rp>）</rp></ruby>, 或称Yoomin, 半路出家的野生前端工程师, 性别男, 爱好女(以及coding), 其实本体是吸猫狂魔, 一见到猫猫就会浑身瘫软彻底丧失行动能力, 用处是紧急时刻可以变成食物(大雾). 
     </p>

@@ -19,7 +19,7 @@ class Header extends Component {
   }
   setHeaderClassName = (e) => {
     const { top } = document.documentElement.getBoundingClientRect()
-    if (top < -200) {
+    if (top < -100) {
       this.setState({
         className: 'headerMenu minified'
       })

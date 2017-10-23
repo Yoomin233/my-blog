@@ -1,5 +1,5 @@
 const config = {
-  baseURL: 'http://192.168.26.216:3000'
+  baseURL: 'http://www.yoominhu.site:3000'
 }
 
 export default config

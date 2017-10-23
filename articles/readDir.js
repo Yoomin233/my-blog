@@ -34,38 +34,24 @@ fs.readdir('./', 'utf8')
     const storedFileList = await fs.readJson('./articleList.json', 'utf-8')
     // sort
     return {
-      generatedFileList: fileList.sort((a, b) => b.mtime - a.mtime),
+      generatedFileList: fileList.sort((a, b) => a.birthtime - b.birthtime),
       storedFileList
     }
-    // for (let fileName in list) {
-    //   if (fileName.endsWith('md')) {
-    //     const filePath = path.resolve(__dirname, fileName)
-    //     const { mtime, birthtime } = await fs.stat(filePath)
-    //     fileList.push({
-    //       fileName,
-    //       filePath,
-    //       title: fileName.slice(9).replace(/\-/g, ' ').replace(/\..*?$/, ''),
-    //       mtime,
-    //       birthtime,
-    //     })
-    //   }
-    // }
-    // return fileList.sort((a, b) => a.matime - b.mtime)
   })
   .then(async ({generatedFileList, storedFileList}) => {
     // if no content, write initial content
     storedFileList = storedFileList.list
-    for (let index = generatedFileList.length - 1; index >= 0 ; index--) {
-      // diff, if not exist, then write titleImg (and everything else)
+    for (let index = 0; index < generatedFileList.length ; index++) {
+      // diff, if not exist, then write titleImg (and everything else) to the head of the storedList
       const fileInfo = generatedFileList[index]
       if (!storedFileList[index]) {
         const fileContent = await fs.readFile(fileInfo.filePath, 'utf-8')
-        storedFileList[index] = Object.assign(
+        // add new file to the temp arr
+        storedFileList.unshift(Object.assign(
           {},
           fileInfo,
           {titleImg: fileContent.match(/!\[img\]\(([^\s]*?)\s/) ? fileContent.match(/!\[img\]\(([^\s]*?)\s/)[1] : 'https://placekitten.com/800/200?image=12'}
-        )
-        console.log('new record added! title: ' + fileInfo.title)
+        ))
       } else {
         // else check the mtime prop
         if (fileInfo.mtime !== storedFileList[index]['mtime']) {

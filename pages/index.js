@@ -8,7 +8,7 @@ import Layout from '../components/Layout'
 import PostLink from '../components/PostLink'
 import Author from '../components/Author'
 
-import headerImg from './i-should-buy-a-boat.jpg'
+// import headerImg from './i-should-buy-a-boat.jpg'
 
 class Index extends Component {
   static async getInitialProps(props) {
@@ -24,7 +24,7 @@ class Index extends Component {
       <Layout url={url} title={'首页 | Yoomin\'s Blog'}>
         <div className="header">
           <div className="headerImg" style={{
-            backgroundImage: `url(${headerImg})`,
+            backgroundImage: `url(/static/pages/i-should-buy-a-boat.jpg)`,
           }}>
           </div>
         </div>
