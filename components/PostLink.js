@@ -1,34 +1,57 @@
+import React, { Component } from 'react'
 import Link from 'next/link'
 
-import {formatTime} from '../tools'
+import DotLoading from '../components/withAnimation/DotLoading'
+import Fade from '../components/withAnimation/Fade'
 
-const PostLink = (props) => {
-  // debugger
-  const [, y, m, d, n] = String(props.fileName).match(/^(\d{4})(\d{2})(\d{2})\-(.*)$/)
-  // const [, y, m, d, n] = [1, 2, 3, 4, 5, 6]
-  // const {month, date} = [1, 2]
-  const {month, date} = formatTime(props.mtime)
-  return (
-    <li>
-      <div className='title'>
-        <Link as={`/posts/${y}/${m}/${d}/${n}`} href={`/post?id=${props.fileName}`} >
-          <div>
-            {props.title}
+import { formatTime } from '../tools'
+
+class PostLink extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      imageLoaded: false
+    }
+  }
+  componentDidMount() {
+    const { titleImg } = this.props
+    const postLinkImg = new Image()
+    postLinkImg.onload = (e) => this.setState({ imageLoaded: true })
+    postLinkImg.src = titleImg
+  }
+  render() {
+    const { fileName, mtime, title, titleImg, abstract } = this.props
+    const { imageLoaded } = this.state
+    const [, y, m, d, n] = String(fileName).match(/^(\d{4})(\d{2})(\d{2})\-(.*)$/)
+    const { month, date } = formatTime(mtime)
+    return (
+      <li>
+        <div className='title'>
+          <Link as={`/posts/${y}/${m}/${d}/${n}`} href={`/post?id=${fileName}`} >
+            <div>
+              {title}
+            </div>
+          </Link>
+          <div className="publishDate">
+            {`${month}, ${date}`}
           </div>
-        </Link>
-        <div className="publishDate">
-          {`${month}, ${date}`}
         </div>
-      </div>
-      <div className="titleImg" style={{
-        backgroundImage: `url(${props.titleImg})`
-      }}>
-        
-      </div>
-      <div className="abstract">
-        {props.abstract}
-      </div>
-      <style jsx>{`
+        <div className="titleImg">
+          {
+            imageLoaded ?
+              <Fade fadeIn={true} whenInViewPort={true}>
+                <div className="img" style={{
+                  backgroundImage: `url(${titleImg})`
+                }}></div>
+              </Fade>
+              :
+              <DotLoading />
+          }
+        </div>
+        <div className="abstract">
+          {abstract}
+        </div>
+        <style jsx>{`
         li {
           padding: 10px;
           color: #444;
@@ -50,14 +73,19 @@ const PostLink = (props) => {
           .titleImg {
             width: 100%;
             height: 200px;
-            background-position: center;
-            background-size: cover;
-            background-clip: content-box;
+            div.img {
+              width: 100%;
+              height: inherit;
+              background-position: center;
+              background-size: cover;
+              background-clip: content-box;
+            }
           }
         }
       `}</style>
-    </li>
-  )
+      </li>
+    )
+  }
 }
 
 export default PostLink
