@@ -12,14 +12,16 @@ import Author from '../components/Author'
 
 class Index extends Component {
   static async getInitialProps(props) {
+    const { req } = props
     const res = await fetch(`${config.baseURL}/api/post/list`)
     const data = await res.json()
     return {
-      articleList: data
+      articleList: data,
+      isServer: !!req
     }
   }
   render() {
-    const { articleList, url } = this.props
+    const { articleList, url, isServer } = this.props
     return (
       <Layout url={url} title={'首页 | Yoomin\'s Blog'}>
         <div className="header">
@@ -33,7 +35,7 @@ class Index extends Component {
             <ul className='postList'>
               {
                 articleList.list.map((item, index) => (
-                  <PostLink title={item.title} fileName={item.fileName} abstract={item.abstract} titleImg={item.titleImg} mtime={item.mtime} key={index}/>
+                  <PostLink title={item.title} fileName={item.fileName} abstract={item.abstract} titleImg={item.titleImg} mtime={item.mtime} key={index} isServer={isServer}/>
                 ))
               }
             </ul>

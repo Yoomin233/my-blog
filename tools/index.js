@@ -14,7 +14,7 @@ export const debounce = (fn, delay) => {
   return (...args) => {
     if (timer) {
       return
-    } else if (!timer) {
+    } else {
       timer = setTimeout(() => {
         timer = null
         return fn(...args)

@@ -38,7 +38,7 @@ class Header extends Component {
     return (
       <div className={className} style={{
         color: headerColor,
-        boxShadow: headerColor !== '#fff' ? '0px 0px 15px rgba(0,0,0,0.3)' : ''
+        boxShadow: headerColor !== '#fff' ? '0px 0px 15px rgba(0,0,0,0.3)' : null
       }}>
         <Link href="/">
           <a>My Blog</a>
@@ -62,6 +62,7 @@ class Header extends Component {
         display: flex;
         align-items: center;
         box-sizing: border-box;
+        z-index: 1024;
         > a:first-child {
           font-size: 1.6em;
           flex-grow: 1;

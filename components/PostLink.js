@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Link from 'next/link'
 
 import DotLoading from '../components/withAnimation/DotLoading'
-import Fade from '../components/withAnimation/Fade'
+import FadeIn from '../components/withAnimation/Fade'
 
 import { formatTime } from '../tools'
 
@@ -20,7 +20,7 @@ class PostLink extends Component {
     postLinkImg.src = titleImg
   }
   render() {
-    const { fileName, mtime, title, titleImg, abstract } = this.props
+    const { fileName, mtime, title, titleImg, abstract, isServer } = this.props
     const { imageLoaded } = this.state
     const [, y, m, d, n] = String(fileName).match(/^(\d{4})(\d{2})(\d{2})\-(.*)$/)
     const { month, date } = formatTime(mtime)
@@ -39,11 +39,11 @@ class PostLink extends Component {
         <div className="titleImg">
           {
             imageLoaded ?
-              <Fade fadeIn={true} whenInViewPort={true}>
+              <FadeIn whenInViewPort={isServer}>
                 <div className="img" style={{
                   backgroundImage: `url(${titleImg})`
                 }}></div>
-              </Fade>
+              </FadeIn>
               :
               <DotLoading />
           }
