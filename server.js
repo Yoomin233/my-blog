@@ -53,7 +53,7 @@ And here's the content.`,
     server.get('*', (req, res) => handle(req, res))
 
 
-    server.listen(process.env.NODE_ENV === 'production' ? 1024 : 3000, err => {
+    server.listen(process.env.NODE_ENV === 'production' ? 80 : 3000, err => {
       if (err) throw err
       console.log('> Ready on http://localhost:3000')
     })
