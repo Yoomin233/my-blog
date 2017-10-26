@@ -1,6 +1,14 @@
 import Head from 'next/head'
 import HeaderMenu from './Header'
 
+function scrollTo(currentScrollTop = document.documentElement.scrollTop) {
+  if (currentScrollTop > 0) {
+    currentScrollTop -= 100
+    document.documentElement.scrollTo(0, currentScrollTop)
+    requestAnimationFrame(() => scrollTo(currentScrollTop))
+  }
+}
+
 const Layout = (props) => (
   <div>
     <Head>
@@ -9,10 +17,10 @@ const Layout = (props) => (
     <HeaderMenu url={props.url} headerColor={props.headerColor} />
     {props.children}
     <div className="footer">
-      <a className="goHead icon-arrow-up" href='#'>
+      <a className="goHead icon-arrow-up" onClick={() => scrollTo()}>
 
       </a>
-      <p>Created with <span style={{ color: '#ef4361'}}>❤︎</span> by <a href="https://github.com/YueminHu/" target='_blank'>Yuemin.Hu</a>. With React and Next.js</p>
+      <p>Created with <span style={{ color: '#ef4361' }}>❤︎</span> by <a href="https://github.com/YueminHu/" target='_blank'>Yuemin.Hu</a>. With React and Next.js</p>
     </div>
     <style jsx>{`
       .footer {

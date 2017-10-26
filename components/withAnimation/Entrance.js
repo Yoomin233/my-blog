@@ -11,7 +11,7 @@ class Entrance extends Component {
   }
   componentDidMount() {
     const { children, stagger } = this.props
-    const {timerList} = this.state
+    const { timerList } = this.state
     if (stagger) {
       children.forEach((item, index) => {
         timerList[index] = setTimeout(() => this.setState(({ animateList }) => {
