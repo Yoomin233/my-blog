@@ -3,6 +3,7 @@ const fs = require('fs')
 // express middlewares
 const express = require('express')
 const cors = require('cors')
+const compression = require('compression')
 
 const next = require('next')
 
@@ -14,6 +15,7 @@ app.prepare()
   .then(() => {
     const server = express()
     server.use(cors())
+    server.use(compression())
     // express-first
     server.get('/posts/:y/:m/:d/:n', (req, res) => {
       const actualPage = '/post'
