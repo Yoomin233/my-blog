@@ -9,15 +9,15 @@ class FadeIn extends Component {
       transition: 'opacity .6s linear',
       opacity: 0,
     }
-    this.checkIfNeededToShow = debounce(throttle(this.checkIfNeededToShow, 400), 50)
+    this.checkIfNeededToShow = throttle(debounce(this.checkIfNeededToShow, 200), 500)
   }
   componentDidMount() {
     const { whenInViewPort } = this.props
     this.clientHeight = document.documentElement.clientHeight
     if (whenInViewPort) {
-      const { bottom, height } = this.fadedElem.getBoundingClientRect()
+      const { top } = this.fadedElem.getBoundingClientRect()
       // if already in viewport
-      if (bottom - height < this.clientHeight) {
+      if (top < this.clientHeight) {
         this.setState({
           opacity: 1
         })
@@ -38,7 +38,7 @@ class FadeIn extends Component {
   checkIfNeededToShow = () => {
     console.log('called!')
     const { bottom } = this.fadedElem.getBoundingClientRect()
-    if (bottom + 50 < this.clientHeight ) {
+    if (bottom < this.clientHeight ) {
       this.setState({
         opacity: 1
       })

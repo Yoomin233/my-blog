@@ -4,6 +4,8 @@ import fetch from 'isomorphic-unfetch'
 
 import Layout from '../components/Layout'
 
+import config from '../config'
+
 import marked from 'marked'
 import Hightlight from 'react-highlight'
 
@@ -28,7 +30,7 @@ const Content = (props) => (
 class Posts extends Component {
   static async getInitialProps({ query }) {
     const { id } = query
-    const res = await fetch(`http://localhost:3000/api/post/${id}`)
+    const res = await fetch(`${config.baseURL}/api/post/${id}`)
     const article = await res.json()
     return {
       // WithPost: <p>123</p>
