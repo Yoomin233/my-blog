@@ -26,7 +26,7 @@ class Index extends Component {
       <Layout url={url} title={'首页 | Yoomin\'s Blog'}>
         <div className="header">
           <div className="headerImg" style={{
-            backgroundImage: `url(/static/pages/i-should-buy-a-boat.jpg)`,
+            backgroundImage: `url(http://ww1.sinaimg.cn/mw690/6d9c4e0fgy1fl0ch0ofxxj21z4140hdw.jpg)`,
           }}>
           </div>
         </div>
