@@ -1,19 +1,14 @@
 import React, { Component } from 'react'
+import Head from 'next/head'
 
 import fetch from 'isomorphic-unfetch'
+import {formatTime} from '../tools'
 
 import Layout from '../components/Layout'
 
 import config from '../config'
 
-import marked from 'marked'
-import Hightlight from 'react-highlight'
-
-marked.setOptions({
-  gfm: true,
-  tables: true,
-  breaks: true
-})
+import Author from '../components/Author'
 
 const Content = (props) => (
   <div>
@@ -29,24 +24,56 @@ const Content = (props) => (
 
 class Posts extends Component {
   static async getInitialProps({ query }) {
-    const { id } = query
-    const res = await fetch(`${config.baseURL}/api/post/${id}`)
+    const { id, title } = query
+    const res = await fetch(`${config.baseURL}/api/post/${encodeURIComponent(id)}`)
     const article = await res.json()
     return {
       // WithPost: <p>123</p>
-      article
+      article,
+      title
     }
   }
   render() {
-    const { article, url} = this.props
+    const { article, url } = this.props
+    let { title } = this.props
+    title = title.replace(/\-/g, ' ')
+    const {month, date} = formatTime(article.publishTime)
     return (
-      <Layout url={url}>
-        <h1>{article.id}</h1>
-        <div>
-          <p>{article.publishTime}</p>
-          <div dangerouslySetInnerHTML={{__html: marked(article.content)}}>
+      <Layout url={url} headerColor={`#1490d7`} title={title}>
+        <Head>
+          <link rel="stylesheet" href="/static/styles/dark.css" />
+        </Head>
+        <div className="mainContentWrapper" style={{
+          paddingTop: '100px'
+        }}>
+          <div className="mainContent">
+            <h1>{title}</h1>
+            <div>
+              <p>发表时间: {month}, {date}</p>
+              <div dangerouslySetInnerHTML={{ __html: article.htmlContent}} className='articleContent'>
+              </div>
+            </div>
           </div>
-        </div>
+          <div className="sideContent">
+            <Author />
+          </div>
+        </div><style jsx global>{`
+          div.articleContent img {
+            max-width: 100%;
+          }
+          pre {
+            color: #eee;
+            background-color: #222;
+            font-size: 1.5em;
+            padding: 1em;
+          }
+          p > code {
+            font-size: 1.2em;
+            vertical-align: baseline;
+            background-color: #eff;
+            padding: 0 0.5em;
+          }
+        `}</style>
       </Layout>
     )
   }

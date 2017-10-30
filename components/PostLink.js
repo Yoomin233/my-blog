@@ -27,7 +27,7 @@ class PostLink extends Component {
     return (
       <li>
         <div className='title'>
-          <Link as={`/posts/${y}/${m}/${d}/${n}`} href={`/post?id=${fileName}`} >
+          <Link as={`/posts/${y}/${m}/${d}/${n}`} href={`/post?id=${fileName}&title=${title}`} >
             <div>
               {title}
             </div>

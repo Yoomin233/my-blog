@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 
 // readdir to a list and filter the .md file
-fs.readdir('./', 'utf8')
+fs.readdir(path.resolve(__dirname, './'), 'utf8')
   .then(async relativeFileNameList => {
     // filter out un-md ending files
     relativeFileNameList = relativeFileNameList.filter(fileName => fileName.endsWith('md'))
@@ -63,6 +63,7 @@ fs.readdir('./', 'utf8')
       list: storedFileList,
       total: storedFileList.length
     }, 'utf-8')
+    console.log(`successfully written ${storedFileList.length} records`)
   })
-  .catch(e => console.log(e))
+  .catch(e => console.log(e, e.stack))
   

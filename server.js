@@ -1,4 +1,5 @@
-const fs = require('fs')
+const fs = require('fs-extra')
+const path = require('path')
 
 // express middlewares
 const express = require('express')
@@ -11,6 +12,20 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+// tools for markdown handling
+const marked = require('marked')
+const renderer = new marked.Renderer()
+renderer.code = (code, language) => `<pre class='hljs'>
+  <code class='lang-${language}'>${hightligt.highlightAuto(code).value}</code>
+</pre>`
+const hightligt = require('highlight.js')
+marked.setOptions({
+  renderer,
+  gfm: true,
+  tables: true,
+  breaks: true,
+})
+
 app.prepare()
   .then(() => {
     const server = express()
@@ -19,10 +34,15 @@ app.prepare()
     // express-first
     server.get('/posts/:y/:m/:d/:n', (req, res) => {
       const actualPage = '/post'
-      const queryParams = {id: `${req.params.y}${req.params.m}${req.params.d}${req.params.n}`}
+      // props to be passed to the react Posts component
+      const queryParams = {
+        id: `${req.params.y}${req.params.m}${req.params.d}-${req.params.n}`,
+        title: `${req.params.n.replace(/\..*/, '')}`
+      }
       app.render(req, res, actualPage, queryParams)
     })
 
+    // apis
     // article list
     server.get('/api/post/list', (req, res) => {
       const articleList = JSON.parse(fs.readFileSync('./articles/articleList.json', 'utf-8'))
@@ -30,26 +50,23 @@ app.prepare()
     })
 
     // article id enquiry
-    server.get('/api/post/:id', (req, res) => {
-      res.send({
-        status: 'success',
-        id: req.params.id,
-        content: `This is our blog post.
-Yes. We can have a [link](/link).
-And we can have a title as well.
-
-\`\`\`javascript
-const ab = 3
-var {
-  123456
-}
-\`\`\`
-
-### This is a title
-And here's the content.`,
-        publishTime: Date.now(),
-        type: 'markdown'
-      })
+    server.get('/api/post/:id', async (req, res) => {
+      try {
+        const fileName = path.resolve('./articles', decodeURIComponent(req.params.id))
+        const mdContent = await fs.readFile(fileName, 'utf-8')
+        const htmlContent = marked(mdContent)
+        const stat = await fs.stat(fileName)
+        res.send({
+          status: 'success',
+          id: req.params.id,
+          htmlContent,
+          publishTime: stat.birthtime,
+          type: 'markdown'
+        })
+      } catch (e) {
+        console.log(e)
+        res.end(e)
+      }
     })
 
     server.get('*', (req, res) => handle(req, res))
