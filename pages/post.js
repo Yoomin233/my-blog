@@ -1,14 +1,26 @@
 import React, { Component } from 'react'
+import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2} from 'react-html-parser'
+
 import Head from 'next/head'
 
 import fetch from 'isomorphic-unfetch'
 import {formatTime} from '../tools'
 
 import Layout from '../components/Layout'
+import Author from '../components/Author'
+import ImgLightbox from '../components/ImgLightbox'
 
 import config from '../config'
 
-import Author from '../components/Author'
+const htmlToReactNodeParseOptions = {
+   transform (node, index) {
+     if (node.name === 'img') {
+        return (<ImgLightbox key={index}>
+          <img src={node.attribs.src} alt=""/>
+        </ImgLightbox>)
+     }
+   }
+}
 
 const Content = (props) => (
   <div>
@@ -50,7 +62,7 @@ class Posts extends Component {
             <h1>{title}</h1>
             <div>
               <p>发表时间: {month}, {date}</p>
-              <div dangerouslySetInnerHTML={{ __html: article.htmlContent}} className='articleContent'>
+              <div className='articleContent'>{ReactHtmlParser(article.htmlContent, htmlToReactNodeParseOptions)}
               </div>
             </div>
           </div>
@@ -60,6 +72,7 @@ class Posts extends Component {
         </div><style jsx global>{`
           div.articleContent img {
             max-width: 100%;
+            min-height: 300px;
           }
           pre {
             color: #eee;

@@ -14,11 +14,13 @@ const handle = app.getRequestHandler()
 
 // tools for markdown handling
 const marked = require('marked')
+const hightligt = require('highlight.js')
 const renderer = new marked.Renderer()
+//custom html render results
 renderer.code = (code, language) => `<pre class='hljs'>
   <code class='lang-${language}'>${hightligt.highlightAuto(code).value}</code>
 </pre>`
-const hightligt = require('highlight.js')
+renderer.image = (href, title, text) => `<img src=${href} />`
 marked.setOptions({
   renderer,
   gfm: true,

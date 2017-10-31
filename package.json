@@ -33,6 +33,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-highlight": "^0.10.0",
+    "react-html-parser": "^2.0.1",
     "react-markdown": "^2.5.0",
     "sass-loader": "^6.0.6",
     "styled-jsx-plugin-sass": "^0.1.0"
