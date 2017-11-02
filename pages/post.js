@@ -8,16 +8,14 @@ import {formatTime} from '../tools'
 
 import Layout from '../components/Layout'
 import Author from '../components/Author'
-import ImgLightbox from '../components/ImgLightbox'
+import ImgLightbox from '../components/general/ImgLightbox'
 
 import config from '../config'
 
 const htmlToReactNodeParseOptions = {
    transform (node, index) {
      if (node.name === 'img') {
-        return (<ImgLightbox key={index}>
-          <img src={node.attribs.src} alt=""/>
-        </ImgLightbox>)
+       return <ImgLightbox src={node.attribs.src} key={index}/>
      }
    }
 }
@@ -73,6 +71,7 @@ class Posts extends Component {
           div.articleContent img {
             max-width: 100%;
             min-height: 300px;
+            cursor: zoom-in;
           }
           pre {
             color: #eee;
