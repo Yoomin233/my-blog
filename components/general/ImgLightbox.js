@@ -38,10 +38,11 @@ class ImgLightbox extends Component {
       let imgStyles
       const { left, top, width, height } = this.imgElem.getBoundingClientRect()
       if (show) {
-        const enlargedIndex = (window.innerWidth * 0.6) / width
+        const devicePixelRatio = window.innerHeight / window.innerWidth
+        const enlargedIndex = (window.innerWidth * (devicePixelRatio > 1 ? 0.9 : 0.6)) / width
         imgStyles = {
-          width: '60vw',
-          left: '20vw',
+          width: devicePixelRatio > 1 ? '90vw' : '60vw',
+          left: devicePixelRatio > 1 ? '5vw' : '20vw',
           top: height / width > 1 ? '20vh' : (window.innerHeight - enlargedIndex * height) / 2
         }
         bgStyles = {
