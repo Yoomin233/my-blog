@@ -66,5 +66,7 @@ a {
   > img {
     position: absolute;
     transition: all .3s cubic-bezier(0, 0.61, 0.17, 0.99);
+    box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.2);
+    border-radius: 5px;
   }
 }

@@ -37,8 +37,8 @@ class FadeIn extends Component {
   }
   checkIfNeededToShow = () => {
     console.log('called!')
-    const { bottom } = this.fadedElem.getBoundingClientRect()
-    if (bottom < this.clientHeight ) {
+    const { top, height } = this.fadedElem.getBoundingClientRect()
+    if (top + height / 2 < this.clientHeight ) {
       this.setState({
         opacity: 1
       })

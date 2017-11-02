@@ -21,6 +21,7 @@ renderer.code = (code, language) => `<pre class='hljs'>
   <code class='lang-${language}'>${hightligt.highlightAuto(code).value}</code>
 </pre>`
 renderer.image = (href, title, text) => `<img src=${href} />`
+renderer.link = (href, title, text) => `<a href=${href} target='${/yoominhu\.site/.test(href) ? '' : '_blank'}'>${text}</a>`
 marked.setOptions({
   renderer,
   gfm: true,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Portal from './Portal'
-
+import Fade from '../withAnimation/Fade'
 class ImgLightbox extends Component {
   constructor(props) {
     super(props)
@@ -68,7 +68,7 @@ class ImgLightbox extends Component {
     const { src } = this.props
     const { imgStyles, bgStyles } = this.state
     return [
-      <img src={src} alt="" ref={elem => this.imgElem = elem} onClick={this.togglePortalShow} key='img' />,
+      <img src={src} alt="" ref={elem => this.imgElem = elem} onClick={this.togglePortalShow} key='img'/>,
       this.state.showed ? <Portal key='portal' node={document.body}>
         <div
           className='imgLightBoxContainer'
