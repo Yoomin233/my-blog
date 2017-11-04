@@ -5,6 +5,7 @@ const path = require('path')
 const express = require('express')
 const cors = require('cors')
 const compression = require('compression')
+const session = require('express-session')
 
 const next = require('next')
 
@@ -32,15 +33,37 @@ marked.setOptions({
 app.prepare()
   .then(() => {
     const server = express()
+    // apply middlewares
     server.use(cors())
     server.use(compression())
+    server.use(session({
+      secret: 'i am the secret!',
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 30,
+        httpOnly: true,
+        path: '/',
+        secure: !dev,
+        name: 'myBlog.cookie'
+      }
+    }))
+
     // express-first
+    // pages
     server.get('/posts/:y/:m/:d/:n', (req, res) => {
       const actualPage = '/post'
       // props to be passed to the react Posts component
       const queryParams = {
         id: `${req.params.y}${req.params.m}${req.params.d}-${req.params.n}`,
         title: `${req.params.n.replace(/\..*/, '')}`
+      }
+      app.render(req, res, actualPage, queryParams)
+    })
+
+    server.get('/newArticle', (req, res) => {
+      const actualPage = '/newArticle'
+      // props to be passed to the react Posts component
+      const queryParams = {
+        loggedIn: false
       }
       app.render(req, res, actualPage, queryParams)
     })
@@ -70,6 +93,13 @@ app.prepare()
         console.log(e)
         res.end(e)
       }
+    })
+
+    // login page
+    server.post('/api/login', (req, res) => {
+      res.json({
+        status: 'success!'
+      })
     })
 
     server.get('*', (req, res) => handle(req, res))

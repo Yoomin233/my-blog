@@ -13,7 +13,7 @@ import Author from '../components/Author'
 class Index extends Component {
   static async getInitialProps(props) {
     const { req } = props
-    const res = await fetch(`${config.baseURL}/api/post/list`)
+    const res = await fetch(`${config.basRL}/api/post/list`)
     const data = await res.json()
     return {
       articleList: data,

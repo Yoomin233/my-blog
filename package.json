@@ -19,6 +19,7 @@
     "compression": "^1.7.1",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "fs-extra": "^4.0.2",
     "glob": "^7.1.2",
     "highlight.js": "^9.12.0",
