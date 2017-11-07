@@ -9,7 +9,7 @@ export default class Layout extends Component {
       <div className='wrapper'>
         <div className="side">
           <Link href='/management'>
-            <p className={`${pathname === '' && 'selected'}`}>management index</p>
+            <p className={`${pathname === '' && 'selected'}`}>index</p>
           </Link>
           <Link href='/management/write'>
             <p className={`${pathname === '/write' && 'selected'}`}>new article</p>
@@ -33,12 +33,14 @@ export default class Layout extends Component {
             height: 100%;
             border-right: 1px solid #666;
             color: #999b93;
+            background-color: #191919;
             > p {
               padding: 10px;
               margin: 0;
-              background-color: #191919;
+              background-color: inherit;
               border-bottom: 1px solid #444;
               cursor: pointer;
+              font-family: sans-serif;
               &:hover, &.selected {
                 background-color: black;
               }
@@ -46,7 +48,8 @@ export default class Layout extends Component {
           }
           div.content {
             flex-grow: 1;
-            padding: 10px;
+            display: flex;
+            flex-direction: column;
           }
         `}
         </style>

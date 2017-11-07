@@ -12,14 +12,18 @@ export const throttle = (fn, interval) => {
 export const debounce = (fn, delay) => {
   let timer
   return (...args) => {
-    if (timer) {
-      return
-    } else {
-      timer = setTimeout(() => {
-        timer = null
-        return fn(...args)
-      }, delay)
-    }
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      return fn(...args)
+    }, delay)
+    // if (timer) {
+    //   return
+    // } else {
+    //   timer = setTimeout(() => {
+    //     timer = null
+    //     return fn(...args)
+    //   }, delay)
+    // }
   }
 }
 
