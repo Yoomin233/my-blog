@@ -6,6 +6,7 @@ const express = require('express')
 const cors = require('cors')
 const compression = require('compression')
 const session = require('express-session')
+const bodyParser = require('body-parser')
 
 const next = require('next')
 
@@ -36,15 +37,24 @@ app.prepare()
     // apply middlewares
     server.use(cors())
     server.use(compression())
+    server.use(bodyParser())
     server.use(session({
-      secret: 'i am the secret!',
+      secret: 'secret',
+      resave: false,
+      saveUninitialized: true,
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 30,
-        httpOnly: true,
-        path: '/',
-        secure: !dev,
-        name: 'myBlog.cookie'
-      }
+        path: '/_next'
+      },
+      name: 'nextCookie'
+    }))
+    server.use(session({
+      secret: 'secret',
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        path: '/api'
+      },
+      name: 'cookieName'
     }))
 
     // express-first
@@ -55,15 +65,6 @@ app.prepare()
       const queryParams = {
         id: `${req.params.y}${req.params.m}${req.params.d}-${req.params.n}`,
         title: `${req.params.n.replace(/\..*/, '')}`
-      }
-      app.render(req, res, actualPage, queryParams)
-    })
-
-    server.get('/newArticle', (req, res) => {
-      const actualPage = '/newArticle'
-      // props to be passed to the react Posts component
-      const queryParams = {
-        loggedIn: false
       }
       app.render(req, res, actualPage, queryParams)
     })
@@ -95,10 +96,40 @@ app.prepare()
       }
     })
 
+
+
     // login page
-    server.post('/api/login', (req, res) => {
+    server.post('/api/login', async (req, res) => {
+      const passwordStr = await fs.readFile(path.resolve(__dirname, './password.json'), 'utf-8')
+      const passwordJson = JSON.parse(passwordStr)
+      for (let i = 0; i < passwordJson.length; i++) {
+        const current = passwordJson[i]
+        if (current.username === req.body.username) {
+          if (current.password === req.body.password) {
+            req.session.username = current.username
+            req.session.auth = current.auth
+            return res.json({
+              status: 'success',
+              user: current.username
+            }) 
+          } else {
+            return res.json({
+              status: 'error',
+              message: 'password error!'
+            })
+          }
+        }
+      }
       res.json({
-        status: 'success!'
+        status: 'error',
+        message: 'user not found!'
+      })
+    })
+
+    // login logic
+    server.get('/api/login', async (req, res) => {
+      res.json({
+        username: req.session.username
       })
     })
 

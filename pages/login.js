@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import Router from 'next/router'
+
 import fetch from 'isomorphic-unfetch'
 
 import config from '../config'
@@ -18,14 +20,27 @@ class newArticle extends Component {
     }
   }
   login = async (e) => {
-    const { username, password } = this.props
-    const result = await fetch(`${config.baseURL}/api/login/`, {
+    const { username, password } = this.state
+    const result = await fetch(`${config.baseURL}/api/login`, {
       method: 'POST',
-      body: {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({
         username,
         password
-      }
+      })
     })
+    const resultJson = await result.json()
+    if (resultJson.status === 'success') {
+      // programmatically change
+      Router.push({
+        pathname: '/management'
+      })
+    } else { 
+      console.log(resultJson)
+    }
   }
   render() {
     const { loggedIn } = this.props
@@ -57,9 +72,28 @@ class newArticle extends Component {
               background-image: url("https://ws1.sinaimg.cn/mw690/6d9c4e0fgy1fl52fgzfmwj23rz2n7h7f.jpg")
             }
             .loginFormWrapper {
-              margin-left: 50%;
-              margin-top: 50%;
+              margin-left: 50vw;
+              margin-top: 50vh;
               border: 1px solid #888;
+              transform: translate(-50%, -50%);
+              background-color: rgba(255, 255, 255, 0.8);
+              padding: 10px 50px;
+              > p {
+                color: #666;
+                display: flex;
+                justify-content: space-between;
+                &:last-child {
+                  justify-content: center;
+                  button {
+                    padding: 10px 20px;
+                    width: 50%;
+                    border-radius: 5px;
+                    background-color: #91c3ff;
+                    border: none;
+                    color: #eee;
+                  }
+                }
+              }
             }
           `}</style>
         </div>
