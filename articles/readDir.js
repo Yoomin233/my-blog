@@ -50,7 +50,9 @@ fs.readdir(path.resolve(__dirname, './'), 'utf8')
         storedFileList.unshift(Object.assign(
           {},
           fileInfo,
-          {titleImg: fileContent.match(/!\[img\]\(([^\s]*?)\s/) ? fileContent.match(/!\[img\]\(([^\s]*?)\s/)[1] : 'https://placekitten.com/800/200?image=12'}
+          {titleImg: fileContent.match(/\!\[.*\]\((.*)\)/) ? 
+            fileContent.match(/\!\[.*\]\((.*)\)/)[1] : 
+            'https://placekitten.com/800/200?image=12'}
         ))
       } else {
         // else check the mtime prop
