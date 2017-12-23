@@ -38,7 +38,9 @@ class ImgLightbox extends Component {
       let imgStyles
       const { left, top, width, height } = this.imgElem.getBoundingClientRect()
       if (show) {
+        // 横屏还是竖屏
         const devicePixelRatio = window.innerHeight / window.innerWidth
+        // 横屏占60%的宽度; 竖屏占90%的宽度
         const enlargedIndex = (window.innerWidth * (devicePixelRatio > 1 ? 0.9 : 0.6)) / width
         imgStyles = {
           width: devicePixelRatio > 1 ? '90vw' : '60vw',

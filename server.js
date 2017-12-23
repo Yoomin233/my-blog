@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const url = require('url')
 
 // express middlewares
 const express = require('express')
@@ -12,7 +13,7 @@ const next = require('next')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
-const handle = app.getRequestHandler()
+const handler = app.getRequestHandler()
 
 // tools for markdown handling
 const marked = require('marked')
@@ -37,28 +38,30 @@ app.prepare()
     // apply middlewares
     server.use(cors())
     server.use(compression())
-    server.use(bodyParser())
-    server.use(session({
-      secret: 'secret',
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-        path: '/_next'
-      },
-      name: 'nextCookie'
-    }))
-    server.use(session({
-      secret: 'secret',
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-        path: '/api'
-      },
-      name: 'cookieName'
-    }))
+    server.use(bodyParser.urlencoded({extended: false}))
+    server.use(bodyParser.json())
+    // server.use(session({
+    //   secret: 'secret',
+    //   resave: false,
+    //   saveUninitialized: true,
+    //   cookie: {
+    //     path: '/_next'
+    //   },
+    //   name: 'nextCookie'
+    // }))
+    // server.use(session({
+    //   secret: 'secret',
+    //   resave: false,
+    //   saveUninitialized: true,
+    //   cookie: {
+    //     path: '/api'
+    //   },
+    //   name: 'cookieName'
+    // }))
 
     // express-first
     // pages
+    // post pages
     server.get('/posts/:y/:m/:d/:n', (req, res) => {
       const actualPage = '/post'
       // props to be passed to the react Posts component
@@ -71,8 +74,12 @@ app.prepare()
 
     // apis
     // article list
-    server.get('/api/post/list', (req, res) => {
-      const articleList = JSON.parse(fs.readFileSync('./articles/articleList.json', 'utf-8'))
+    server.get('/api/post/list', async (req, res) => {
+      const articleList = JSON.parse(await fs.readFile('./articles/articleList.json', 'utf-8'))
+      const offset = req.query['offset'] || 0
+      const size = req.query['size'] || 10
+      articleList.list = articleList.list.slice(offset, offset + size)
+      // articleList.total = 21
       res.json(articleList)
     })
 
@@ -133,7 +140,7 @@ app.prepare()
       })
     })
 
-    server.get('*', (req, res) => handle(req, res))
+    server.get('*', (req, res) => handler(req, res))
 
 
     server.listen(process.env.NODE_ENV === 'production' ? 80 : 3000, err => {
