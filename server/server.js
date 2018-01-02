@@ -3,6 +3,7 @@ const http = require("http");
 const https = require("https");
 const path = require("path");
 const url = require("url");
+const cookie = require("cookie");
 
 // express middlewares
 const express = require("express");
@@ -10,15 +11,25 @@ const cors = require("cors");
 const compression = require("compression");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-
 const next = require("next");
 
+// modules needed
+const MemoryStore = require("./memoryStore");
+
+const cookieStore = new MemoryStore();
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handler = app.getRequestHandler();
+
 // https certificates
-const key = fs.readFileSync("./sslcert/214253111870115.key", "utf8");
-const cert = fs.readFileSync("./sslcert/214253111870115.crt", "utf8");
+const key = fs.readFileSync(
+  path.join(__dirname, "./sslcert/214253111870115.key"),
+  "utf8"
+);
+const cert = fs.readFileSync(
+  path.join(__dirname, "./sslcert/214253111870115.crt"),
+  "utf8"
+);
 const credentials = {
   key,
   cert
@@ -74,9 +85,49 @@ app
     //   name: 'cookieName'
     // }))
 
+    // manual write cookie
+    server.get("*", (req, res, next) => {
+      const cookies = cookie.parse(req.headers.cookie || "");
+      const siteCookie = cookies.siteCookie;
+      if (!siteCookie) {
+        const id =
+          Math.random()
+            .toString(16)
+            .slice(2) + Date.now();
+        const clientInfo = {
+          visit: 1,
+          auth: "visitor"
+        };
+        cookieStore.set(id, clientInfo);
+        res.setHeader(
+          "Set-Cookie",
+          cookie.serialize("siteCookie", id, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 7
+          })
+        );
+        req.cookie = clientInfo;
+      } else {
+        const data = cookieStore.get(siteCookie);
+        if (data && data.visit) {
+          data.visit += 1;
+          req.cookie = data;
+        } else {
+          // server restart
+          const clientInfo = {
+            visit: 1,
+            auth: "visitor"
+          };
+          cookieStore.set(siteCookie, clientInfo);
+          req.cookie = clientInfo;
+        }
+      }
+      next();
+    });
+
     // express-first
     // pages
-    // post pages
+    // post pages, direct access
     server.get("/posts/:y/:m/:d/:n", (req, res) => {
       const actualPage = "/post";
       // props to be passed to the react Posts component
@@ -123,54 +174,32 @@ app
       }
     });
 
-    // login page
-    // server.post('/api/login', async (req, res) => {
-    //   const passwordStr = await fs.readFile(path.resolve(__dirname, './password.json'), 'utf-8')
-    //   const passwordJson = JSON.parse(passwordStr)
-    //   for (let i = 0; i < passwordJson.length; i++) {
-    //     const current = passwordJson[i]
-    //     if (current.username === req.body.username) {
-    //       if (current.password === req.body.password) {
-    //         req.session.username = current.username
-    //         req.session.auth = current.auth
-    //         return res.json({
-    //           status: 'success',
-    //           user: current.username
-    //         })
-    //       } else {
-    //         return res.json({
-    //           status: 'error',
-    //           message: 'password error!'
-    //         })
-    //       }
-    //     }
-    //   }
-    //   res.json({
-    //     status: 'error',
-    //     message: 'user not found!'
-    //   })
-    // })
-
-    // login logic
-    // server.get('/api/login', async (req, res) => {
-    //   res.json({
-    //     username: req.session.username
-    //   })
-    // })
+    // query user
+    server.get("/api/user", (req, res) => {
+      if (req.cookie) {
+        res.json(req.cookie);
+      } else {
+        res.json({
+          data: "no user found!"
+        });
+      }
+    });
 
     server.get("*", (req, res) => handler(req, res));
 
     const httpServer = http.createServer(server);
     const httpsServer = https.createServer(server);
+    const httpPort = dev ? 3000 : 80;
+    const httpsPort = dev ? 8443 : 443;
 
-    httpServer.listen(dev ? 3000 : 80, err => {
+    httpServer.listen(httpPort, err => {
       if (err) throw err;
-      console.log("> Ready on http://localhost:3000");
+      console.log(`> Ready on http://localhost:${httpPort}`);
     });
 
-    httpsServer.listen(dev ? 8443 : 443, err => {
+    httpsServer.listen(httpsPort, err => {
       if (err) throw err;
-      console.log("> Ready on https://localhost:443");
+      console.log(`> Ready on https://localhost:${httpsPort}`);
     });
   })
   .catch(ex => {
