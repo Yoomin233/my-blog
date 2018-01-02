@@ -3,21 +3,31 @@ import PropTypes from "prop-types";
 
 import Link from "next/link";
 
+import Modal from "../../components/general/Modal";
 export default class Layout extends Component {
   static propTypes = {
     url: PropTypes.object.isRequired,
     clientInfo: PropTypes.object.isRequired
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showLoginModal: false
+    };
+  }
   login = e => {
-    console.log("login!");
+    this.setState(({ showLoginModal }) => ({
+      showLoginModal: !showLoginModal
+    }));
   };
   render() {
+    const { clientInfo } = this.props;
+    const { showLoginModal } = this.state;
     const pathname = this.props.url
       ? this.props.url.pathname.replace("/management", "")
       : "";
-    const { clientInfo } = this.props;
     return [
-      <div className="header" key='header'>
+      <div className="header" key="header">
         <h2>welcome to mgr page!</h2>
         <p>
           {clientInfo.auth === "visitor" && (
@@ -33,7 +43,7 @@ export default class Layout extends Component {
           }
         `}</style>
       </div>,
-      <div className="wrapper" key='wrapper'>
+      <div className="wrapper" key="wrapper">
         <div className="side">
           <Link href="/management">
             <p className={`${pathname === "" && "selected"}`}>index</p>
@@ -52,7 +62,6 @@ export default class Layout extends Component {
           {`
             div.wrapper {
               width: 100vw;
-              height: 100vh;
               display: flex;
               flex-direction: row;
             }
@@ -82,7 +91,18 @@ export default class Layout extends Component {
             }
           `}
         </style>
-      </div>
+      </div>,
+      <Modal
+        key="Modal"
+        show={showLoginModal}
+        onClose={e =>
+          this.setState({
+            showLoginModal: !showLoginModal
+          })
+        }
+      >
+        <div>i am the modal content!</div>
+      </Modal>
     ];
   }
 }
