@@ -1,37 +1,39 @@
-import React, { Component } from 'react'
-
+import React, { Component } from "react";
+import cookie from "cookie";
 // import config from '../../config'
 // import fetch from 'isomorphic-fetch'
 
-import Layout from './Layout'
+import Layout from "./Layout";
 
 export default class ManagementIndex extends Component {
-  static async getInitialProps({req}) {
-    // client-side, login -> management page using Router.push
-    // server-side (direct visit)
-    const user = {}
+  static async getInitialProps({ req }) {
+    let clientInfo;
     if (req) {
-      user.username = 'yoomin'
-      user.auth = 'super'
-    // else, through link, go and get login info (with cookies attached)
+      clientInfo = req.cookie;
     } else {
-      // const userInfo = await fetch('/api/user')
-      user.username = 'yoomin'
-      user.auth = 'super'
+      const response = await fetch("/api/user", {
+        credentials: "same-origin"
+      });
+      // user.username = 'yoomin'
+      // user.auth = 'super'
+      clientInfo = await response.json();
     }
     return {
-      message: 'this Management father Component!',
-      user
-    }
+      message: "this Management father Component!",
+      // user,
+      clientInfo
+    };
   }
   render() {
-    const { url } = this.props
+    const { url, clientInfo } = this.props;
     return (
-      <Layout url={url}>
+      <Layout url={url} clientInfo={clientInfo}>
         <div>
-          {this.props.message}
+          <p>
+            hello {clientInfo.auth}, this is your {clientInfo.visit}th visit
+          </p>
         </div>
       </Layout>
-    )
+    );
   }
 }
