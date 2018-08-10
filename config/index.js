@@ -3,7 +3,7 @@ const config = {
     baseURL: 'http://localhost:3000'
   },
   'production': {
-    baseURL: 'http://47.94.196.246'
+    baseURL: 'http://www.yoominhu.club'
   }
 }
 

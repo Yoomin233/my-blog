@@ -30,6 +30,9 @@ export default class Modal extends React.Component {
                 background-color: rgba(0,0,0,0.6);
                 color: #fff;
               }
+              div.modalBody {
+                
+              }
             `}</style>
           </div>
         </FadeIn>

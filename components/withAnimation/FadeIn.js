@@ -29,15 +29,15 @@ export default class Modal extends React.Component {
         });
       });
     } else if (this.props.show && !nextProps.show) {
-      const self = this
-      this.elem.addEventListener('transitionend', function anony (e) {
-        this.setState({
+      const self = this;
+      this.elem.addEventListener("transitionend", function anony(e) {
+        self.setState({
           containerStyle: {
-            display: 'none'
+            display: "none"
           }
-        })
-        this.elem.removeEventListener('transitionend', anony)
-      })
+        });
+        self.elem.removeEventListener("transitionend", anony);
+      });
       this.setState({
         containerStyle: {
           opacity: "0"
