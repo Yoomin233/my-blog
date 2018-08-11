@@ -197,10 +197,10 @@ app
       console.log(`> Ready on http://localhost:${httpPort}`);
     });
 
-    httpsServer.listen(httpsPort, err => {
-      if (err) throw err;
-      console.log(`> Ready on https://localhost:${httpsPort}`);
-    });
+    // httpsServer.listen(httpsPort, err => {
+    //   if (err) throw err;
+    //   console.log(`> Ready on https://localhost:${httpsPort}`);
+    // });
   })
   .catch(ex => {
     console.log(ex.stack);
